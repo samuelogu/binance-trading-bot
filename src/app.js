@@ -1,52 +1,24 @@
-const app = require('express')();
-var https = require('https');
+const { BinanceRest, BinanceWS } = require('binance');
+const { binance_key, binance_secrete } = require("./config");
 
-const io = require('socket.io')(https);
-var port = process.env.PORT || 3000;
-const config = require('./config');
+// connect to mongodb and redis
+require('./connectors/redis')
+require('./connectors/mongodb')
 
-const function_ = require('./functions');
+const ws = new BinanceWS();
+const price = 1234;
 
+ws.onTicker('BNBUSDT', data => {
+    const price = data.currentClose;
+    console.log(price);
+})
 
-
-
-const binance = require('./binance');
-
-const tradeController = require('./controllers/trade');
-let Trade = new tradeController();
-
-
-
-/*setInterval( function () {
-
-    binance.rest.prices(config.tradePair, (error, ticker) => {
-
-        if (!error) {
-            let price = Trade.price(ticker.BNBUSDT);
-            Trade.check(price);
-            // Trade.profit(947802536, price);
-        }
-
-    });
-
-}, 5000);*/
-
-
-
-
-// var price = 13.143;
-// Trade.sell(price);
-
-
-
-io.on('connection', function(socket){
-
-
-    socket.on('price', function(msg){
-        console.log(msg);
-    });
-
-
-});
+    // (async () => {
+    //     binance.futuresMiniTickerStream( miniTicker => {
+    //         console.info( miniTicker );
+    //     } );
+    // })().catch(err => {
+    //     console.error(err);
+    // });
 
 
