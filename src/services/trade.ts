@@ -1,4 +1,5 @@
-const binance = require('../binance');
+/*
+const binance = require('./binance');
 const config = require('../config');
 
 class Trade {
@@ -224,3 +225,22 @@ class Trade {
 }
 
 module.exports = Trade;
+*/
+
+import client from './binance';
+import { log } from './logger';
+
+export async function placeOrder(symbol: string, side: 'BUY' | 'SELL', quantity: string) {
+    try {
+        await client.order({
+            price: "",
+            symbol,
+            side,
+            quantity,
+            type: 'MARKET'
+        });
+        log('info', `${side} order placed for ${symbol}`);
+    } catch (error) {
+        log('error', `Failed to place order: ${error.message}`);
+    }
+}
