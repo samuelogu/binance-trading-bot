@@ -13,3 +13,20 @@ export async function checkBuySellSignal(candles: any[], rsiThreshold: number = 
     }
     return null;
 }
+
+export function executeStrategy(
+    indicators: any,
+    candle: any,
+    buyPrice: number
+): 'BUY' | 'SELL' | 'HOLD' {
+    if (indicators.rsi < 30 && indicators.macd > indicators.signalLine) {
+        return 'BUY'; // Example: Oversold condition
+    }
+
+    if (buyPrice > 0 && candle.close > buyPrice * 1.02) {
+        return 'SELL'; // Example: Profit target
+    }
+
+    return 'HOLD'; // No action
+}
+

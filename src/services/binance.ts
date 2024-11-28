@@ -1,5 +1,4 @@
 import Binance from 'binance-api-node';
-import config from '../config';
 
 const client = Binance({
     apiKey: process.env.BINANCE_API_KEY,
@@ -13,5 +12,18 @@ export function getCandlestickStream(symbol: string, interval: string, onCandle:
 export async function getHistoricalCandles(symbol: string, interval: any, limit: number = 50) {
     return await client.candles({ symbol, interval, limit });
 }
+
+async function fetchLatestCandle(symbol: string = 'BTCUSDT', interval: string = '1m') {
+    const candles = await client.candles({ symbol, interval, limit: 1 });
+    const latestCandle = candles[0];
+
+    console.log("Timestamp:", latestCandle.openTime);
+    console.log("Open:", latestCandle.open);
+    console.log("High:", latestCandle.high);
+    console.log("Low:", latestCandle.low);
+    console.log("Close:", latestCandle.close);
+    console.log("Volume:", latestCandle.volume);
+}
+
 
 export default client;

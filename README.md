@@ -79,11 +79,7 @@ npm install
 BINANCE_API_KEY=your_api_key
 BINANCE_API_SECRET=your_api_secret
 ```
-4. Build the project:
-```bash
-npm run build
-```
-5. Run the bot:
+4. Run the bot:
 ```bash
 npm start
 ```
